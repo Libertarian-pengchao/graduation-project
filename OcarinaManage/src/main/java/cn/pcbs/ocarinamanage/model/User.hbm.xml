@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2019-3-21 20:03:01 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="cn.pcbs.ocarinamanage.model.User" table="t_user">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="userName" type="java.lang.String">
+            <column name="userName" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="password" />
+        </property>
+        <property name="sex" type="java.lang.String">
+            <column name="sex" />
+        </property>
+        <property name="state" type="int">
+            <column name="state" />
+        </property>
+        <property name="regeDate" type="java.util.Date">
+            <column name="regeDate" />
+        </property>
+        <property name="img" type="java.lang.String">
+            <column name="img" />
+        </property>
+        <property name="personalsign" type="java.lang.String">
+            <column name="personalsign" />
+        </property>
+        <property name="phoneNumber" type="java.lang.String">
+            <column name="phoneNumber" />
+        </property>
+        <set name="myVidieos" table="t_user_myvidieo" inverse="true" lazy="true">
+            <key>
+                <column name="user_id" />
+            </key>
+			<many-to-many class="cn.pcbs.ocarinamanage.model.MyVidieo" column="vidieo_id"/>
+        </set>
+        <set name="roles" table="t_user_role" lazy="false">
+        	<key>
+        		<column name="user_id" />
+        	</key>
+        	<many-to-many class="cn.pcbs.ocarinamanage.model.Role" column="role_id"></many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

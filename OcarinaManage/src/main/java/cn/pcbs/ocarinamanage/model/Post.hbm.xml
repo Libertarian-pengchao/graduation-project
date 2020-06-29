@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2019-4-29 10:34:29 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="cn.pcbs.ocarinamanage.model.Post" table="t_post">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="type" type="int">
+            <column name="type" />
+        </property>
+        <property name="postName" type="java.lang.String">
+            <column name="postName" />
+        </property>
+        <property name="postContent" type="java.lang.String">
+            <column name="postContent" />
+        </property>
+        <property name="publishUserName" type="java.lang.String">
+            <column name="publishUserName" />
+        </property>
+        <property name="time" type="java.util.Date">
+            <column name="time" />
+        </property>
+    </class>
+</hibernate-mapping>

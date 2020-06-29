@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2019-3-31 10:11:54 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="cn.pcbs.ocarinamanage.model.ReportMessage" table="t_reportmessage">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="reporterName" type="java.lang.String">
+            <column name="reporterName" />
+        </property>
+        <property name="dealName" type="java.lang.String">
+            <column name="dealName" />
+        </property>
+        <property name="title" type="java.lang.String">
+            <column name="title" />
+        </property>
+        <property name="content" type="java.lang.String">
+            <column name="content" />
+        </property>
+        <property name="isDeal" type="java.lang.Integer">
+            <column name="isDeal" />
+        </property>
+        <property name="reportPostName" type="java.lang.String">
+            <column name="reportPostName" />
+        </property>
+    </class>
+</hibernate-mapping>

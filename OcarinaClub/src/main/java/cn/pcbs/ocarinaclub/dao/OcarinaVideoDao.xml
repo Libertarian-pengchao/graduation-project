@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cn.pcbs.ocarinaclub.dao.OcarinaVideoDao" >
+  	
+  	<select id="getAllOcarinaVideo" resultType="cn.pcbs.ocarinaclub.model.OcarinaVideo">
+  		select * from `t_ocarinavideo`
+  	</select>
+  	
+  	<select id="getOcarinaVideoByauthorName" resultType="cn.pcbs.ocarinaclub.model.OcarinaVideo">
+  		SELECT * FROM `t_ocarinavideo` WHERE `authorName` = #{authorName}
+  	</select>
+ </mapper>

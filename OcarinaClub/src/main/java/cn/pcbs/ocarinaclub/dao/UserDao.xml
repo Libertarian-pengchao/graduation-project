@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cn.pcbs.ocarinaclub.dao.UserDao" >
+  	<insert id="addUser" parameterType="cn.pcbs.ocarinaclub.model.User" useGeneratedKeys="true" keyProperty="id"> 
+  		INSERT INTO t_user 
+  				(userName,`password`,sex,state,phoneNumber,regeDate,img) 
+  			VALUES(#{userName},#{password},#{sex},#{state},#{phoneNumber},#{regeDate},#{img})
+  	</insert>
+  	
+  	<select id="getUserByUserName" resultType="cn.pcbs.ocarinaclub.model.User">
+  		SELECT * FROM `t_user` WHERE userName = #{userName}
+  	</select>
+  	
+  	<update id="updateUserMessage">
+  		update `t_user` set `personalsign` = #{personalsign} ,sex = #{sex} where id = #{id}
+  	</update>
+  	
+  	<update id="updateUserImg">
+  		update `t_user` set img = #{img} where id = #{id}
+  	</update>
+  	
+  	<update id="updatePassword">
+  		update `t_user` set password = #{password} where id = #{id}
+  	</update>
+  	
+  	<update id="updatePhone">
+  		update `t_user` set phoneNumber = #{phoneNumber} where id = #{id}
+  	</update>
+ </mapper>

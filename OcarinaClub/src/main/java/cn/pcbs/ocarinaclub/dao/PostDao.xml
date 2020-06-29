@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cn.pcbs.ocarinaclub.dao.PostDao" >
+  	
+  	<select id="getAllPost" resultType="cn.pcbs.ocarinaclub.model.Post">
+  		SELECT * FROM `t_post`
+  	</select>
+  	
+  	<select id="getPostByType" resultType="cn.pcbs.ocarinaclub.model.Post">
+  		SELECT * FROM `t_post` where type = #{type}
+  	</select>
+  	
+  	<select id="getPostByName" resultType="cn.pcbs.ocarinaclub.model.Post">
+  		SELECT * FROM `t_post` WHERE postName LIKE #{name}
+  	</select>
+  	
+  	<insert id="publishPost">
+  		INSERT INTO `t_post` 
+  			(id,`type`,postName,postContent,publishUserName) 
+  			VALUES (id,#{type},#{postName},#{postContent},#{publishUserName})
+  	</insert>
+  	
+  	<select id="getPostById" resultType="cn.pcbs.ocarinaclub.model.Post">
+  		SELECT * FROM `t_post` WHERE id = #{id}
+  	</select>
+  	
+ </mapper>

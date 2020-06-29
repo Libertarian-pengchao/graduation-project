@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2019-4-1 13:07:31 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="cn.pcbs.ocarinamanage.model.Comment" table="t_comment">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="userName" type="java.lang.String">
+            <column name="userName" />
+        </property>
+        <property name="date" type="java.util.Date">
+            <column name="date" />
+        </property>
+        <property name="content" type="java.lang.String">
+            <column name="content" />
+        </property>
+        <property name="postId" type="java.lang.Integer">
+            <column name="postId" />
+        </property>
+        <property name="replyUsername" type="java.lang.String">
+            <column name="replyUsername" />
+        </property>
+    </class>
+</hibernate-mapping>

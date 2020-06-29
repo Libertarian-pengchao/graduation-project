@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<context:component-scan base-package="cn.pcbs.ocarinamanage">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+
+	<!-- C3P0数据库连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="user" value="${jdbc.user}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="driverClass" value="${jdbc.driverClass}"></property>
+		<property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
+		
+		<property name="acquireIncrement" value="${jdbc.acquireIncrement}"></property>
+		<property name="initialPoolSize" value="${jdbc.initialPoolSize}"></property>
+		<property name="minPoolSize" value="${jdbc.minPoolSize}"></property>
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"></property>
+		<property name="maxStatements" value="${jdbc.maxStatements}"></property>
+		<property name="maxStatementsPerConnection" value="${jdbc.maxStatementsPerConnection}"></property>
+	</bean>
+	<!-- 整合hibernate -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+		<property name="mappingLocations" value="classpath:cn/pcbs/ocarinamanage/model/*.xml"></property>
+	</bean>
+	<!-- spring的事务管理器 -->
+	<bean id="transManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 配置事务属性 -->
+	<tx:advice id="txAdvance" transaction-manager="transManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="load*" read-only="true"/>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="select*" read-only="true"/>
+			<tx:method name="*" read-only="false"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 事务切面配置 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* cn.pcbs.ocarinamanage.service.*.*(..))" id="point"/>
+		<aop:advisor advice-ref="txAdvance" pointcut-ref="point"/>
+	</aop:config>
+	
+	<!-- 配置shiro的核心组件 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="cacheManager" ref="ehcahManager"></property>
+		<property name="realm" ref="myShiroRealm"></property>
+	</bean>
+	
+	<bean id="ehcahManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml"></property>
+	</bean>
+	<bean id="myShiroRealm" class="cn.pcbs.ocarinamanage.shiro.MyShiroRealm">
+		<property name="credentialsMatcher">
+			<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+				<property name="hashAlgorithmName" value="MD5"></property>
+				<property name="hashIterations" value="1024"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 配置shiro的过滤规则 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login" />  
+                 <!-- 登录页面，filterChainDefinitions除没有指定的页面，或者指定权限是anon以外的所有页面，在没登录时候访问都会自动跳转到这里   -->
+		<property name="successUrl" value="/admin/main" />  <!-- 登录成功后的页面 -->
+		<property name="unauthorizedUrl"  value="/unauthorized" />  <!-- 登录后访问没有权限的页面后跳转的页面 -->
+		<property name="filterChainDefinitions">
+			<value>
+				/login = anon
+				/logout = logout
+				/admin/main = perms[main]
+				/userGive = perms[usergive]
+				/userDelete = perms[userdelete]
+				/userStartFor = perms[userstartforbidden]
+				/getAllPagerUsers = perms[getallpagerusers]
+				/updateUserRole = perms[updateuserrole]
+				/userForbidden = perms[userforbidden]
+				/userStart = perms[userstart]
+				/userDelete = perms[userdelete]
+				/doReportMess = perms[dorepotmess]
+				/dealPost = perms[dealpost]
+				/reportdetails = perms[repostdetails]
+				/postdetails = perms[postdetails]
+				
+			</value>
+		</property>
+	</bean>
+</beans>
